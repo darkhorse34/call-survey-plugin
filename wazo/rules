@@ -1,0 +1,37 @@
+#!/bin/sh
+# Copyright 2021 Wazo Team (see the AUTHORS file)
+# SPDX-License-Identifier: GPLv3
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+CMD="${1:-}"; DEST="${2:-/}"
+log(){ echo "[wazo/rules] $*" >&2; }
+die(){ echo "[wazo/rules][ERROR] $*" >&2; exit 2; }
+[[ -n "$CMD" ]] || die "missing command"; [[ -n "$DEST" ]] || die "missing DESTDIR"
+sed -i 's/\r$//' "$0" || true
+
+install_python() {
+  if [[ -f requirements.txt ]]; then
+    python3 -m pip install -r requirements.txt --root "$DEST" --prefix /usr
+  fi
+  python3 -m pip install . --root "$DEST" --prefix /usr --no-deps
+}
+
+install_calld_conf() {
+  mkdir -p "$DEST/etc/wazo-calld/conf.d"
+  install -m 0644 etc/wazo-calld/conf.d/50-wazo-survey.yml \
+    "$DEST/etc/wazo-calld/conf.d/50-wazo-survey.yml"
+}
+
+install_dialplan() {
+  mkdir -p "$DEST/etc/asterisk/extensions_extra.d"
+  install -m 0644 dialplan/survey.conf \
+    "$DEST/etc/asterisk/extensions_extra.d/95-wazo-survey.conf"
+}
+
+case "$CMD" in
+  install) log "BEGIN install -> $DEST"; install_python; install_calld_conf; install_dialplan; log "END install";;
+  uninstall) log "BEGIN uninstall -> $DEST"; log "END uninstall";;
+  *) die "unknown command: $CMD (install|uninstall)";;
+esac

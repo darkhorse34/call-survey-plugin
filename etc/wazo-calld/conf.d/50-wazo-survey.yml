@@ -1,0 +1,8 @@
+enabled_plugins:
+  wazo_survey: true
+
+wazo_survey:
+  survey_context: "xivo-extrafeatures"   # reachable from your internal ctx (you already include it)
+  survey_exten: "8899"
+  survey_timeout: 15
+  webhook_url: ""                         # e.g. http://127.0.0.1:5000/survey_result (optional)

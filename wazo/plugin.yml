@@ -1,16 +1,16 @@
-name: wazo-plugin-survey
+name: call-survey-plugin
 namespace: survey
 description: Post-call survey (IVR 1–5) + API to transfer caller into survey
 version: 0.0.1
 author: Piotr
 display_name: Plugin Survey
 plugin_format_version: 1
-min_wazo_version: 25.12
+min_wazo_version: 25.02
 tags:
   - community
   - survey
   - feedback
 debian_depends:
   - vim
-homepage: https://github.com/darkhorse34/demo-plugin
+homepage: https://github.com/darkhorse34/call-survey-plugin
 

@@ -1,3 +1,3 @@
-# Stack Plugin - Demo
+# Stack Plugin - Call Survey
 
-This plugin adds an extension `8899` that for call survey and feedback features.
+This is call survey plugin
